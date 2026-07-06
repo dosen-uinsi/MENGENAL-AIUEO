@@ -1,0 +1,2877 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Misi Balon Vokal - Video Cover dan Musik</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20A.png">
+  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20I.png">
+  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20U.png">
+  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20E.png">
+  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20O.png">
+  <style>
+    :root {
+      --vh: 1vh;
+      --ink: #26335d;
+      --card: rgba(255, 255, 255, 0.84);
+      --shadow: rgba(38, 51, 93, 0.16);
+      --accent: #6c7cff;
+      --accent-2: #ff77b7;
+      --target-color: #ff77b7;
+      --target-light: #ffd0e7;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Fredoka', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.78) 0 7%, transparent 8%),
+        radial-gradient(circle at 88% 18%, rgba(255, 231, 122, 0.72) 0 5%, transparent 10%),
+        linear-gradient(180deg, #b7ecff 0%, #e7f9ff 52%, #fff3c8 100%);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .game-area {
+      position: relative;
+      width: 100vw;
+      height: calc(var(--vh) * 100);
+      min-height: 520px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .cloud {
+      position: absolute;
+      z-index: -2;
+      width: 168px;
+      height: 58px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 20px rgba(89, 171, 219, 0.12);
+      pointer-events: none;
+    }
+
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      border-radius: 999px;
+      background: inherit;
+    }
+
+    .cloud::before { width: 70px; height: 70px; left: 22px; bottom: 20px; }
+    .cloud::after { width: 84px; height: 84px; right: 18px; bottom: 13px; }
+    .cloud-left { left: 4%; top: 25%; opacity: 0.48; }
+    .cloud-right { right: 4%; top: 50%; opacity: 0.4; transform: scale(0.76); }
+
+    .ground {
+      position: absolute;
+      left: -4%;
+      right: -4%;
+      bottom: -60px;
+      height: 132px;
+      z-index: -1;
+      background: linear-gradient(180deg, #9be991, #55c875);
+      border-top-left-radius: 55% 70%;
+      border-top-right-radius: 55% 70%;
+      opacity: 0.74;
+      pointer-events: none;
+    }
+
+    .hud {
+      position: absolute;
+      top: max(12px, env(safe-area-inset-top));
+      left: 12px;
+      right: 12px;
+      z-index: 20;
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      border-radius: 26px;
+      background: var(--card);
+      box-shadow: 0 12px 28px var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.25rem, 4vw, 1.9rem);
+      line-height: 1.05;
+    }
+
+    .hint {
+      margin: 4px 0 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: rgba(38, 51, 93, 0.72);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .badge {
+      display: grid;
+      place-items: center;
+      min-height: 42px;
+      padding: 6px 8px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 2px solid rgba(255, 255, 255, 0.92);
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 5px 0 rgba(38, 51, 93, 0.08);
+    }
+
+    .badge small {
+      display: block;
+      font-size: 0.68rem;
+      color: rgba(38, 51, 93, 0.62);
+    }
+
+    .badge strong { font-size: 1rem; }
+
+    .progress-track {
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(38, 51, 93, 0.12);
+      border: 2px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ff74b8, #ffcf5a, #57d680, #5bb9ff);
+      transition: width 0.22s ease;
+    }
+
+    .hud-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 20px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 700;
+      color: #26335d;
+      background: #ffdd62;
+      box-shadow: 0 6px 0 rgba(38, 51, 93, 0.16);
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 rgba(38, 51, 93, 0.16);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      padding: 15px 26px;
+      font-size: 1.2rem;
+    }
+
+
+
+    #start-btn, #replay-btn, #choose-again-btn {
+      margin-top: 16px;
+    }
+
+    .sound-test-btn {
+      width: min(100%, 360px);
+      margin: 14px auto 0;
+      display: block;
+      padding: 12px 18px;
+    }
+
+    .btn-soft {
+      background: rgba(255, 255, 255, 0.78);
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 0 rgba(38, 51, 93, 0.10);
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(201, 239, 255, 0.48);
+      backdrop-filter: blur(8px);
+    }
+
+    .hidden { display: none !important; }
+
+    .panel {
+      width: min(94vw, 640px);
+      max-height: min(92vh, 800px);
+      overflow: auto;
+      padding: clamp(22px, 4.5vw, 34px);
+      border-radius: 34px;
+      border: 4px solid rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 16px 36px var(--shadow);
+      text-align: center;
+      scrollbar-width: thin;
+    }
+
+
+    #loading-screen {
+      z-index: 120;
+      padding: 0;
+      overflow: hidden;
+      background: #0d0d0d;
+      backdrop-filter: none;
+      color: #ffffff;
+    }
+
+    #loading-screen .loading-page {
+      width: 100%;
+      height: 100%;
+      min-height: calc(var(--vh) * 100);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(246, 13, 84, 0.16), transparent 34%),
+        #0d0d0d;
+      font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    #loading-screen .counter {
+      position: relative;
+      width: min(220px, 76vw);
+      text-align: center;
+    }
+
+    #loading-screen .counter p {
+      margin: 0;
+      font-size: clamp(2rem, 9vw, 2.5rem);
+      font-weight: 100;
+      line-height: 1;
+      color: #f60d54;
+      letter-spacing: -0.03em;
+      text-transform: lowercase;
+    }
+
+    #loading-screen .counter h1 {
+      margin: -8px 0 10px;
+      color: #ffffff;
+      font-size: clamp(3.8rem, 17vw, 5rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    #loading-screen .counter hr {
+      width: 0%;
+      height: 1px;
+      margin: 0;
+      border: 0;
+      background: #f60d54;
+      box-shadow: 0 0 18px rgba(246, 13, 84, 0.75);
+      transition: width 0.05s linear;
+    }
+
+    #loading-screen .counter h1.abs {
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    #loading-screen .counter .color {
+      width: 0;
+      overflow: hidden;
+      color: #f60d54;
+    }
+
+    #loading-screen .loading-ready-text {
+      display: none;
+    }
+
+    #loading-screen .loading-next-btn {
+      margin: 24px auto 0;
+      min-width: 190px;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 24px;
+      color: white;
+      font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      background: linear-gradient(135deg, #f60d54, #ff6fa3);
+      box-shadow: 0 0 24px rgba(246, 13, 84, 0.35), 0 12px 26px rgba(0, 0, 0, 0.36);
+      cursor: pointer;
+      touch-action: manipulation;
+      transform: translateY(8px);
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.2s ease;
+    }
+
+    #loading-screen .loading-next-btn:not(.hidden) {
+      display: inline-block !important;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #loading-screen .loading-next-btn:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 0 16px rgba(246, 13, 84, 0.32), 0 7px 18px rgba(0, 0, 0, 0.34);
+    }
+
+    .loading-screen-exit {
+      animation: loadingCounterExit .48s ease forwards !important;
+      pointer-events: none;
+    }
+
+    @keyframes loadingCounterExit {
+      to { opacity: 0; transform: scale(1.025); filter: blur(5px); }
+    }
+
+    #cover-screen {
+      z-index: 90;
+      padding: clamp(10px, 2.2vw, 28px);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(255, 221, 98, 0.42) 0 11%, transparent 32%),
+        radial-gradient(circle at 88% 12%, rgba(255, 119, 183, 0.36) 0 13%, transparent 34%),
+        radial-gradient(circle at 80% 88%, rgba(84, 210, 255, 0.38) 0 14%, transparent 34%),
+        linear-gradient(145deg, #7fdcff 0%, #c8f5ff 42%, #fff1b8 100%);
+      backdrop-filter: none;
+    }
+
+    #cover-screen::before,
+    #cover-screen::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      border-radius: 999px;
+      z-index: 0;
+    }
+
+    #cover-screen::before {
+      width: min(42vw, 440px);
+      height: min(42vw, 440px);
+      left: -120px;
+      top: -150px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 68%);
+    }
+
+    #cover-screen::after {
+      width: min(38vw, 380px);
+      height: min(38vw, 380px);
+      right: -110px;
+      bottom: -130px;
+      background: radial-gradient(circle, rgba(255, 119, 183, 0.30), rgba(255, 119, 183, 0) 68%);
+    }
+
+    .cover-panel {
+      position: relative;
+      z-index: 1;
+      width: min(96vw, 1120px);
+      height: min(calc(var(--vh) * 94), 860px);
+      max-height: none;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: clamp(10px, 2vh, 18px);
+      padding: clamp(16px, 3vw, 34px);
+      border-radius: clamp(28px, 4vw, 46px);
+      border: 5px solid rgba(255, 255, 255, 0.96);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.70)),
+        rgba(255, 255, 255, 0.72);
+      box-shadow:
+        0 26px 60px rgba(38, 51, 93, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.88);
+      text-align: center;
+      scrollbar-width: none;
+    }
+
+    .cover-panel::-webkit-scrollbar { display: none; }
+
+    .cover-topline {
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      color: #26335d;
+      background: #fff4b8;
+      border: 3px solid rgba(255, 255, 255, 0.92);
+      box-shadow: 0 7px 0 rgba(38, 51, 93, 0.10);
+      font-size: clamp(0.92rem, 2vw, 1.08rem);
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .cover-image-wrap {
+      position: relative;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      padding: clamp(8px, 1.6vw, 18px);
+      border-radius: clamp(22px, 3.2vw, 38px);
+      background:
+        radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.95), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 247, 206, 0.76));
+      border: 4px solid rgba(255, 255, 255, 0.98);
+      box-shadow: 0 14px 30px rgba(38, 51, 93, 0.14);
+      overflow: hidden;
+    }
+
+    .cover-image-wrap::before,
+    .cover-image-wrap::after {
+      content: '';
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    .cover-image-wrap::before {
+      width: 128px;
+      height: 128px;
+      left: -34px;
+      top: -38px;
+      background: #ffda5a;
+    }
+
+    .cover-image-wrap::after {
+      width: 104px;
+      height: 104px;
+      right: -28px;
+      bottom: -32px;
+      background: #ff85bf;
+    }
+
+    .cover-image {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: min(100%, 980px);
+      height: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: clamp(18px, 2.4vw, 28px);
+      filter: drop-shadow(0 18px 22px rgba(38, 51, 93, 0.18));
+    }
+
+    .cover-video-wrap {
+      background:
+        radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.94), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 245, 198, 0.78));
+    }
+
+    .cover-video {
+      position: relative;
+      z-index: 2;
+      display: none;
+      width: min(100%, 1000px);
+      height: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: clamp(18px, 2.4vw, 28px);
+      filter: drop-shadow(0 18px 22px rgba(38, 51, 93, 0.18));
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    .cover-video.is-ready {
+      display: block;
+    }
+
+    .cover-fallback {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 980px);
+      height: 100%;
+      min-height: 260px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: clamp(12px, 2vh, 22px);
+      padding: clamp(16px, 3vw, 32px);
+      border-radius: clamp(18px, 2.4vw, 28px);
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.80), transparent 30%),
+        radial-gradient(circle at 86% 24%, rgba(255, 218, 90, 0.60), transparent 28%),
+        linear-gradient(135deg, #b7ecff 0%, #fff7c9 56%, #ffd1e7 100%);
+      color: #26335d;
+      overflow: hidden;
+    }
+
+    .cover-video.is-ready + .cover-fallback {
+      display: none;
+    }
+
+    .cover-fallback strong {
+      display: block;
+      font-size: clamp(2.1rem, 6vw, 4.8rem);
+      line-height: 1;
+      text-shadow: 0 4px 0 rgba(255, 255, 255, 0.70);
+    }
+
+    .cover-fallback em {
+      font-style: normal;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      font-weight: 700;
+      opacity: 0.82;
+    }
+
+    .cover-bubble-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(8px, 1.6vw, 18px);
+      width: 100%;
+    }
+
+    .cover-bubble-row span {
+      display: grid;
+      place-items: center;
+      width: clamp(54px, 8.5vw, 92px);
+      height: clamp(54px, 8.5vw, 92px);
+      border-radius: 50%;
+      color: white;
+      font-size: clamp(1.8rem, 5vw, 3.3rem);
+      font-weight: 800;
+      background: linear-gradient(145deg, #ff86bf, #6c7cff);
+      border: 4px solid rgba(255, 255, 255, 0.86);
+      box-shadow: 0 10px 18px rgba(38, 51, 93, 0.18);
+      animation: coverFloat 2.8s ease-in-out infinite;
+    }
+
+    .cover-bubble-row span:nth-child(2) { background: linear-gradient(145deg, #6c7cff, #54cfff); animation-delay: .15s; }
+    .cover-bubble-row span:nth-child(3) { background: linear-gradient(145deg, #24bc72, #a5f06e); animation-delay: .30s; }
+    .cover-bubble-row span:nth-child(4) { background: linear-gradient(145deg, #ffad2f, #ffdc5a); animation-delay: .45s; }
+    .cover-bubble-row span:nth-child(5) { background: linear-gradient(145deg, #36aef8, #7bdcff); animation-delay: .60s; }
+
+    @keyframes coverFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .cover-actions {
+      display: grid;
+      place-items: center;
+      gap: 8px;
+    }
+
+    .cover-caption {
+      margin: 0 !important;
+      max-width: 56ch !important;
+      font-size: clamp(0.88rem, 1.7vw, 1rem) !important;
+      line-height: 1.35 !important;
+      color: rgba(38, 51, 93, 0.72) !important;
+    }
+
+    #cover-start-btn {
+      margin-top: 0;
+      min-width: min(320px, 88vw);
+      padding: 16px 28px;
+      font-size: clamp(1.05rem, 2.4vw, 1.28rem);
+      border-radius: 24px;
+    }
+
+    .preview-bubble {
+      display: grid;
+      place-items: center;
+      width: 112px;
+      height: 112px;
+      margin: 4px auto 28px;
+      border-radius: 50%;
+      color: white;
+      font-size: 58px;
+      font-weight: 700;
+      line-height: 1;
+      text-shadow: 0 2px 4px rgba(38, 51, 93, 0.25);
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.75) 0 9%, transparent 10%),
+        linear-gradient(145deg, var(--target-light), var(--target-color));
+      box-shadow: 0 8px 16px rgba(38, 51, 93, 0.14);
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 7vw, 3rem);
+      line-height: 1.05;
+    }
+
+    .panel p {
+      margin: 16px auto 0;
+      max-width: 44ch;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      font-weight: 600;
+      color: rgba(38, 51, 93, 0.76);
+    }
+
+    .menu-group {
+      margin: 24px 0 0;
+      padding: clamp(16px, 3vw, 22px);
+      border-radius: 26px;
+      background: rgba(240, 249, 255, 0.84);
+      border: 2px solid rgba(255, 255, 255, 0.92);
+      text-align: left;
+    }
+
+    .menu-title {
+      margin: 0 0 30px;
+      font-weight: 700;
+      font-size: 1.06rem;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .letter-menu .menu-title { margin-bottom: 36px; }
+    .challenge-menu .menu-title { margin-bottom: 34px; }
+
+    .letter-options {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      align-items: stretch;
+      justify-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .letter-btn {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      max-width: 94px;
+      aspect-ratio: 1;
+      min-width: 0;
+      padding: 9px;
+      border: 3px solid rgba(255, 255, 255, 0.96);
+      border-radius: 24px;
+      font: inherit;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 18%, rgba(255,255,255,0.95), transparent 36%),
+        linear-gradient(135deg, #ffffff, #fff5cf);
+      box-shadow: 0 7px 0 rgba(38, 51, 93, 0.12), 0 12px 18px rgba(38, 51, 93, 0.08);
+      touch-action: manipulation;
+    }
+
+    .letter-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 5px 4px rgba(38, 51, 93, 0.16));
+      transition: transform 0.12s ease;
+    }
+
+    .letter-btn .fallback-letter { display: none; }
+
+    .letter-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 rgba(38, 51, 93, 0.12);
+    }
+
+    .letter-btn:active img { transform: scale(0.92); }
+
+    .letter-btn[aria-pressed="true"] {
+      outline: 4px solid #26335d;
+      outline-offset: 2px;
+      background:
+        radial-gradient(circle at 30% 18%, rgba(255,255,255,0.96), transparent 36%),
+        linear-gradient(135deg, #fff8bf, #ffd45d);
+    }
+
+    .letter-a { background: linear-gradient(135deg, #fff7fb, #ffd5e9); }
+    .letter-i { background: linear-gradient(135deg, #f4f6ff, #d9dfff); }
+    .letter-u { background: linear-gradient(135deg, #f2fff7, #c9f3db); }
+    .letter-e { background: linear-gradient(135deg, #fffaf0, #ffe8b2); }
+    .letter-o { background: linear-gradient(135deg, #f1fbff, #cfeeff); }
+
+    .challenge-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .mode-btn {
+      min-height: 92px;
+      padding: 16px;
+      border: 3px solid rgba(255, 255, 255, 0.95);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 6px 0 rgba(38, 51, 93, 0.10);
+      touch-action: manipulation;
+    }
+
+    .mode-btn span {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: rgba(38, 51, 93, 0.68);
+      margin-top: 8px;
+    }
+
+    .mode-btn[aria-pressed="true"] {
+      background: #fff4bd;
+      outline: 4px solid #26335d;
+      outline-offset: 2px;
+    }
+
+    .tips {
+      display: grid;
+      gap: 12px;
+      margin: 24px 0 8px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .tip {
+      padding: 13px 15px;
+      border-radius: 20px;
+      background: rgba(255, 245, 200, 0.72);
+    }
+
+    .bubble {
+      position: absolute;
+      z-index: 10;
+      width: var(--hit-size);
+      height: var(--hit-size);
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      will-change: transform, opacity;
+      animation: floatUp var(--duration) linear forwards;
+    }
+
+    .bubble-face {
+      display: grid;
+      place-items: center;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      color: white;
+      font-size: calc(var(--size) * 0.48);
+      font-weight: 700;
+      line-height: 1;
+      text-shadow: 0 2px 4px rgba(38, 51, 93, 0.25);
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.72) 0 9%, transparent 10%),
+        linear-gradient(145deg, var(--light), var(--color));
+      box-shadow: 0 8px 16px rgba(38, 51, 93, 0.14);
+      transition: transform 0.08s ease, filter 0.08s ease;
+      pointer-events: none;
+    }
+
+    .bubble:active .bubble-face {
+      transform: scale(0.92);
+      filter: brightness(1.05);
+    }
+    .bubble.pop { pointer-events: none; animation: none; }
+    .bubble.pop .bubble-face { animation: pop 0.22s ease-out forwards; }
+
+    @keyframes floatUp {
+      from { transform: translate3d(0, 0, 0); opacity: 1; }
+      to { transform: translate3d(var(--drift), calc(-100vh - 170px), 0); opacity: 0.96; }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); opacity: 1; }
+      55% { transform: scale(1.22); opacity: 0.75; }
+      100% { transform: scale(0.05); opacity: 0; }
+    }
+
+    .spark {
+      position: fixed;
+      z-index: 70;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      pointer-events: none;
+      background: var(--spark-color);
+      animation: spark 0.45s ease-out forwards;
+    }
+
+    @keyframes spark {
+      from { opacity: 1; transform: translate(0, 0) scale(1); }
+      to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+    }
+
+    .float-text {
+      position: fixed;
+      z-index: 75;
+      pointer-events: none;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--text-color);
+      -webkit-text-stroke: 3px white;
+      paint-order: stroke fill;
+      animation: textUp 0.62s ease-out forwards;
+    }
+
+    @keyframes textUp {
+      from { transform: translate(-50%, -45%) scale(0.9); opacity: 0; }
+      18% { opacity: 1; }
+      to { transform: translate(-50%, -120%) scale(1.08); opacity: 0; }
+    }
+
+
+    @media (min-width: 900px) {
+      .game-area {
+        min-height: 620px;
+      }
+
+      .hud {
+        left: 50%;
+        right: auto;
+        width: min(1120px, calc(100vw - 56px));
+        transform: translateX(-50%);
+        padding: 16px 18px;
+        gap: 12px;
+      }
+
+      .top-row {
+        gap: 24px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(4, minmax(120px, 1fr));
+        gap: 12px;
+      }
+
+      .badge {
+        min-height: 50px;
+        border-radius: 20px;
+      }
+
+      .panel {
+        width: min(88vw, 780px);
+        padding: 38px 42px;
+        border-radius: 38px;
+      }
+
+      .cover-panel {
+        width: min(94vw, 1180px);
+        height: min(calc(var(--vh) * 92), 880px);
+        padding: 34px 42px;
+      }
+
+      .cover-image,
+      .cover-video {
+        width: min(100%, 1040px);
+      }
+
+
+      .preview-bubble {
+        width: 122px;
+        height: 122px;
+        font-size: 64px;
+        margin-bottom: 32px;
+      }
+
+      .panel p {
+        max-width: 62ch;
+      }
+
+      .menu-group {
+        margin-top: 28px;
+        padding: 24px 26px;
+        border-radius: 30px;
+      }
+
+      .menu-title {
+        margin-bottom: 34px;
+        font-size: 1.12rem;
+      }
+
+      .letter-menu .menu-title { margin-bottom: 42px; }
+      .challenge-menu .menu-title { margin-bottom: 40px; }
+
+      .letter-options {
+        gap: 18px;
+      }
+
+      .letter-btn {
+        max-width: 112px;
+        padding: 12px;
+        border-radius: 28px;
+      }
+
+      .challenge-options {
+        gap: 18px;
+      }
+
+      .mode-btn {
+        min-height: 112px;
+        padding: 20px 22px;
+      }
+
+      .tips {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .tips .tip:first-child {
+        grid-column: 1 / -1;
+      }
+
+      #start-btn, #replay-btn, #choose-again-btn {
+        margin-top: 22px;
+      }
+
+      .btn-primary {
+        min-width: 210px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .game-area { min-height: 100dvh; }
+      .hud { border-radius: 22px; padding: 10px; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+      .badge { min-height: 38px; padding: 5px; border-radius: 15px; }
+      .badge small { font-size: 0.66rem; }
+      .badge strong { font-size: 0.94rem; }
+      .hint { display: none; }
+      .btn { padding: 10px 12px; border-radius: 17px; }
+      .hud-actions { gap: 6px; }
+      .cloud-left { left: -12%; }
+      .cloud-right { right: -16%; }
+      .panel { padding: 18px; max-height: 94vh; }
+      #cover-screen { padding: 10px; }
+      .cover-panel {
+        width: min(96vw, 520px);
+        height: min(calc(var(--vh) * 94), 760px);
+        padding: 14px;
+        gap: 9px;
+        border-radius: 28px;
+      }
+      .cover-topline {
+        padding: 8px 12px;
+        font-size: 0.88rem;
+      }
+      .cover-image-wrap {
+        border-radius: 22px;
+        padding: 7px;
+      }
+      .cover-image,
+      .cover-video {
+        border-radius: 16px;
+      }
+      #cover-start-btn {
+        min-width: min(280px, 84vw);
+        padding: 13px 20px;
+      }
+      .preview-bubble { width: 96px; height: 96px; font-size: 52px; margin-bottom: 22px; }
+      .menu-group { margin-top: 20px; padding: 16px 14px; }
+      .menu-title { margin-bottom: 24px; }
+      .letter-menu .menu-title { margin-bottom: 30px; }
+      .challenge-menu .menu-title { margin-bottom: 28px; }
+      .letter-options { gap: 8px; }
+      .letter-btn { max-width: 68px; padding: 6px; border-radius: 18px; }
+      .challenge-options { grid-template-columns: 1fr; gap: 12px; }
+      .mode-btn { min-height: 76px; padding: 14px; }
+      .tips { margin-top: 18px; gap: 10px; }
+    }
+
+
+    @media (max-height: 650px) {
+      .cover-panel {
+        height: min(calc(var(--vh) * 96), 620px);
+        padding: 10px 14px;
+        gap: 7px;
+      }
+      .cover-topline,
+      .cover-caption { display: none; }
+      #cover-start-btn { padding: 12px 22px; }
+    }
+
+
+    /* Perbaikan cover video: tampil utuh dan tidak terpotong */
+    #cover-screen {
+      padding: clamp(8px, 1.6vw, 18px);
+    }
+
+    .cover-panel {
+      width: min(98vw, 1280px);
+      height: min(calc(var(--vh) * 96), 920px);
+      padding: clamp(10px, 2vw, 26px);
+      gap: clamp(7px, 1.2vh, 14px);
+      grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+
+    .cover-video-wrap {
+      min-height: 0;
+      max-height: 100%;
+      padding: clamp(5px, 1vw, 12px);
+      background: #101018;
+    }
+
+    .cover-video {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+      border-radius: clamp(12px, 1.8vw, 22px);
+      background: #101018;
+    }
+
+    .cover-sound-btn {
+      position: absolute;
+      right: clamp(12px, 2vw, 22px);
+      bottom: clamp(12px, 2vw, 22px);
+      z-index: 8;
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      color: white;
+      font: inherit;
+      font-size: clamp(0.84rem, 1.6vw, 0.98rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #f60d54, #6c7cff);
+      box-shadow: 0 8px 18px rgba(13, 13, 13, 0.24);
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .cover-sound-btn:active {
+      transform: translateY(2px) scale(0.98);
+    }
+
+    /* Video cover dipaksa tampil penuh: tanpa crop, tanpa sudut yang memotong gambar. */
+    .cover-image-wrap.cover-video-wrap {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: visible !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      background: #000 !important;
+    }
+
+    .cover-image-wrap.cover-video-wrap::before,
+    .cover-image-wrap.cover-video-wrap::after {
+      display: none !important;
+    }
+
+    .cover-video {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+      border-radius: 0 !important;
+      background: #000 !important;
+    }
+
+    .cover-actions {
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      .cover-panel {
+        width: min(98vw, 560px);
+        height: min(calc(var(--vh) * 96), 780px);
+        padding: 10px;
+        gap: 7px;
+      }
+
+      .cover-topline {
+        font-size: 0.78rem;
+        padding: 7px 10px;
+      }
+
+      .cover-caption {
+        display: none;
+      }
+
+      .cover-sound-btn {
+        right: 12px;
+        bottom: 12px;
+        padding: 9px 13px;
+        font-size: 0.78rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bubble, .spark, .float-text, .bubble-face,
+      #loading-screen, .loading-panel, .loading-balloons span,
+      .loading-cloud, .loading-progress-fill, .loading-dots span {
+        animation-duration: 0.01ms !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="game-area" id="game-area" aria-label="Area permainan Misi Balon Vokal">
+    <div class="cloud cloud-left" aria-hidden="true"></div>
+    <div class="cloud cloud-right" aria-hidden="true"></div>
+    <div class="ground" aria-hidden="true"></div>
+
+    <header class="hud" aria-label="Informasi permainan">
+      <div class="top-row">
+        <div>
+          <h1 id="game-title">🫧 Misi Huruf A</h1>
+          <p class="hint" id="game-hint">Sentuh balon huruf A. Balon dibuat lambat dan mudah disentuh.</p>
+        </div>
+        <div class="hud-actions">
+          <button id="menu-btn" class="btn btn-soft" type="button" aria-label="Kembali ke menu">Menu</button>
+          <button id="pause-btn" class="btn" type="button" aria-label="Jeda permainan">⏸️</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="badge"><small>Target</small><strong id="target-display">A</strong></div>
+        <div class="badge"><small>Skor</small><strong id="score-display">0/10</strong></div>
+        <div class="badge"><small>Nyawa</small><strong id="lives-display">❤️❤️❤️</strong></div>
+        <div class="badge"><small>Waktu</small><strong><span id="time-display">90</span>s</strong></div>
+      </div>
+
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </header>
+
+
+    <section id="loading-screen" class="screen" aria-label="Loading aplikasi">
+      <div class="loading-page">
+        <div class="counter">
+          <p>loading</p>
+          <h1>0%</h1>
+          <hr>
+          <button id="loading-next-btn" class="loading-next-btn hidden" type="button">Masuk Aplikasi</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="cover-screen" class="screen hidden" aria-label="Cover aplikasi">
+      <div class="panel cover-panel">
+        <div class="cover-topline">✨ Game Edukasi Vokal AIUEO</div>
+        <div class="cover-image-wrap cover-video-wrap">
+          <video id="cover-video" class="cover-video" playsinline loop preload="auto" aria-label="Video cover aplikasi mengenal huruf vokal AIUEO"></video>
+          <div id="cover-fallback" class="cover-fallback" aria-hidden="true">
+            <div class="cover-bubble-row">
+              <span>A</span><span>I</span><span>U</span><span>E</span><span>O</span>
+            </div>
+            <strong>Misi Balon Vokal</strong>
+            <em>Belajar vokal sambil bermain</em>
+          </div>
+        </div>
+        <div class="cover-actions">
+          <button id="cover-start-btn" class="btn btn-primary" type="button">Mulai Bermain</button>
+          <p class="cover-caption">Tekan tombol untuk masuk ke menu pilihan huruf.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="start-screen" class="screen hidden">
+      <div class="panel">
+        <div class="preview-bubble" id="preview-bubble">A</div>
+        <h2>Misi Balon Vokal</h2>
+        <p>Pilih huruf vokal yang ingin dipecahkan, lalu pilih apakah ingin bermain dengan huruf pengecoh atau tanpa pengecoh.</p>
+
+        <div class="menu-group letter-menu">
+          <p class="menu-title">1. Mau pecahkan huruf apa?</p>
+          <div class="letter-options" role="group" aria-label="Pilihan huruf vokal">
+            <button class="letter-btn letter-a" type="button" data-letter="A" aria-pressed="true" aria-label="Pilih huruf A">
+              <img data-letter-img="A" data-img-index="0" src="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20A.png" alt="Gambar huruf A" loading="eager" decoding="async" referrerpolicy="no-referrer">
+            </button>
+            <button class="letter-btn letter-i" type="button" data-letter="I" aria-pressed="false" aria-label="Pilih huruf I">
+              <img data-letter-img="I" data-img-index="0" src="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20I.png" alt="Gambar huruf I" loading="eager" decoding="async" referrerpolicy="no-referrer">
+            </button>
+            <button class="letter-btn letter-u" type="button" data-letter="U" aria-pressed="false" aria-label="Pilih huruf U">
+              <img data-letter-img="U" data-img-index="0" src="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20U.png" alt="Gambar huruf U" loading="eager" decoding="async" referrerpolicy="no-referrer">
+            </button>
+            <button class="letter-btn letter-e" type="button" data-letter="E" aria-pressed="false" aria-label="Pilih huruf E">
+              <img data-letter-img="E" data-img-index="0" src="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20E.png" alt="Gambar huruf E" loading="eager" decoding="async" referrerpolicy="no-referrer">
+            </button>
+            <button class="letter-btn letter-o" type="button" data-letter="O" aria-pressed="false" aria-label="Pilih huruf O">
+              <img data-letter-img="O" data-img-index="0" src="https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/HURUF%20O.png" alt="Gambar huruf O" loading="eager" decoding="async" referrerpolicy="no-referrer">
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-group challenge-menu">
+          <p class="menu-title">2. Pilih tantangan</p>
+          <div class="challenge-options" role="group" aria-label="Pilihan tantangan">
+            <button class="mode-btn" type="button" data-distractor="false" aria-pressed="false">
+              🙂 Tanpa pengecoh
+              <span>Ada balon huruf target dan balon kosong. Balon kosong aman untuk latihan awal.</span>
+            </button>
+            <button class="mode-btn" type="button" data-distractor="true" aria-pressed="true">
+              🧠 Ada pengecoh
+              <span>Ada huruf vokal lain. Sentuh hanya huruf target. Balon kosong tetap aman.</span>
+            </button>
+          </div>
+        </div>
+
+        <button id="start-btn" class="btn btn-primary" type="button">Mulai Main</button>
+      </div>
+    </section>
+
+    <section id="end-screen" class="screen hidden">
+      <div class="panel">
+        <div id="end-emoji" style="font-size: 4.5rem; line-height: 1; margin-bottom: 10px;">🎉</div>
+        <h2 id="end-title">Kamu Hebat!</h2>
+        <p id="end-message"></p>
+        <p><strong>Skor akhir: <span id="final-score">0/10</span></strong></p>
+        <button id="replay-btn" class="btn btn-primary" type="button">Main Lagi</button>
+        <button id="choose-again-btn" class="btn btn-soft" type="button" style="margin-top: 10px;">Pilih Huruf Lagi</button>
+      </div>
+    </section>
+  </main>
+  <audio id="bg-music" preload="auto" loop crossorigin="anonymous"></audio>
+
+  <script>
+    const area = document.getElementById('game-area');
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingNextBtn = document.getElementById('loading-next-btn');
+    const loadingReadyText = document.getElementById('loading-ready-text');
+    const coverScreen = document.getElementById('cover-screen');
+    const coverStartBtn = document.getElementById('cover-start-btn');
+    const coverVideo = document.getElementById('cover-video');
+    const coverSoundBtn = document.getElementById('cover-sound-btn');
+    const coverFallback = document.getElementById('cover-fallback');
+    const bgMusic = document.getElementById('bg-music');
+    const startScreen = document.getElementById('start-screen');
+    const endScreen = document.getElementById('end-screen');
+    const startBtn = document.getElementById('start-btn');
+    const replayBtn = document.getElementById('replay-btn');
+    const chooseAgainBtn = document.getElementById('choose-again-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const menuBtn = document.getElementById('menu-btn');
+
+    const gameTitle = document.getElementById('game-title');
+    const gameHint = document.getElementById('game-hint');
+    const previewBubble = document.getElementById('preview-bubble');
+    const menuTip = document.getElementById('menu-tip');
+    const voiceStatus = document.getElementById('voice-status');
+    const soundStatus = document.getElementById('sound-status');
+    const testSoundBtn = document.getElementById('test-sound-btn');
+    const targetDisplay = document.getElementById('target-display');
+    const scoreDisplay = document.getElementById('score-display');
+    const livesDisplay = document.getElementById('lives-display');
+    const timeDisplay = document.getElementById('time-display');
+    const progressFill = document.getElementById('progress-fill');
+
+    const endEmoji = document.getElementById('end-emoji');
+    const endTitle = document.getElementById('end-title');
+    const endMessage = document.getElementById('end-message');
+    const finalScore = document.getElementById('final-score');
+
+    const targetScore = 10;
+    const maxLives = 3;
+    const maxTime = 90;
+    const maxBubblesOnScreen = 5;
+    const vowels = ['A', 'I', 'U', 'E', 'O'];
+
+    const letterThemes = {
+      A: { color: '#ff6fb4', light: '#ffc0df', className: 'letter-a' },
+      I: { color: '#6c7cff', light: '#c5d0ff', className: 'letter-i' },
+      U: { color: '#24bc72', light: '#b4f0cc', className: 'letter-u' },
+      E: { color: '#ffad2f', light: '#ffe09b', className: 'letter-e' },
+      O: { color: '#36aef8', light: '#c7eaff', className: 'letter-o' }
+    };
+
+    const imageBaseUrls = [
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main',
+      'https://github.com/dosen-uinsi/MENGENAL-AIUEO/raw/main'
+    ];
+
+    const letterImageSources = Object.fromEntries(
+      vowels.map(letter => [letter, imageBaseUrls.map(base => `${base}/HURUF%20${letter}.png`)])
+    );
+
+    const githubOwner = 'dosen-uinsi';
+    const githubRepo = 'MENGENAL-AIUEO';
+    const githubBranch = 'main';
+    const githubTreeApi = `https://api.github.com/repos/${githubOwner}/${githubRepo}/git/trees/${githubBranch}?recursive=1`;
+
+    const defaultCoverImageSources = [
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/COVER%20APLIKASI.png',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/COVER%20APLIKASI.png',
+      'https://github.com/dosen-uinsi/MENGENAL-AIUEO/raw/main/COVER%20APLIKASI.png',
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/COVER-APLIKASI%20A.png',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/COVER-APLIKASI%20A.png',
+      'https://github.com/dosen-uinsi/MENGENAL-AIUEO/raw/main/COVER-APLIKASI%20A.png'
+    ];
+
+    const defaultCoverVideoSources = [
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/VIDEO%20COVER.mp4',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/VIDEO%20COVER.mp4',
+      'https://github.com/dosen-uinsi/MENGENAL-AIUEO/raw/main/VIDEO%20COVER.mp4',
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/COVER-APLIKASI.mp4',
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/COVER%20APLIKASI.mp4',
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/COVER-APLIKASI%20A.mp4',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/COVER-APLIKASI.mp4',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/COVER%20APLIKASI.mp4',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/COVER-APLIKASI%20A.mp4'
+    ];
+
+    const defaultBackgroundMusicSources = [
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/LAGU%20APLIKASI.mp3',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/LAGU%20APLIKASI.mp3',
+      'https://github.com/dosen-uinsi/MENGENAL-AIUEO/raw/main/LAGU%20APLIKASI.mp3',
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/MUSIK%20LATAR.mp3',
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/MUSIK-LATAR.mp3',
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/BACKSOUND.mp3',
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main/BACKGROUND%20MUSIC.mp3',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/MUSIK%20LATAR.mp3',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/MUSIK-LATAR.mp3',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/BACKSOUND.mp3',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main/BACKGROUND%20MUSIC.mp3'
+    ];
+
+
+    // Nama file suara ini disesuaikan dengan file yang ada di repositori:
+    // TOMBOL A/E/I/O/U.mp3 untuk tombol huruf, GELEMBUNG A/E/I/O/U.mp3 untuk balon huruf meletus.
+    // Gelembung polos TIDAK memakai file GitHub; suaranya dibuat lokal dengan Web Audio agar lebih nyaring seperti balon meletus.
+    const remoteSoundBaseUrls = [
+      'https://cdn.jsdelivr.net/gh/dosen-uinsi/MENGENAL-AIUEO@main',
+      'https://raw.githubusercontent.com/dosen-uinsi/MENGENAL-AIUEO/main',
+      'https://github.com/dosen-uinsi/MENGENAL-AIUEO/raw/main'
+    ];
+
+    const buttonLetterSoundFiles = {
+      A: 'TOMBOL A.mp3',
+      I: 'TOMBOL I.mp3',
+      U: 'TOMBOL U.mp3',
+      E: 'TOMBOL E.mp3',
+      O: 'TOMBOL O.mp3'
+    };
+
+    const bubbleLetterSoundFiles = {
+      A: 'GELEMBUNG A.mp3',
+      I: 'GELEMBUNG I.mp3',
+      U: 'GELEMBUNG U.mp3',
+      E: 'GELEMBUNG E.mp3',
+      O: 'GELEMBUNG O.mp3'
+    };
+
+    function soundFileToSources(fileName) {
+      const encodedFileName = encodeURIComponent(fileName);
+      return remoteSoundBaseUrls.map(base => `${base}/${encodedFileName}`);
+    }
+
+    const buttonLetterSoundSources = Object.fromEntries(
+      vowels.map(letter => [letter, soundFileToSources(buttonLetterSoundFiles[letter])])
+    );
+
+    const bubbleLetterSoundSources = Object.fromEntries(
+      vowels.map(letter => [letter, soundFileToSources(bubbleLetterSoundFiles[letter])])
+    );
+
+    // Gelembung polos sengaja tidak memakai file audio dari GitHub.
+
+    const remoteSoundCache = new Map();
+    let remoteSoundsPreloaded = false;
+
+    let githubTreeCache = null;
+    let repoMusicPrepared = false;
+    let repoMusicPreparing = null;
+    let backgroundMusicStarted = false;
+    let synthMusicTimer = null;
+    let musicGain = null;
+    let synthMusicStep = 0;
+
+    const fallbackWords = {
+      A: { word: 'Ayam', icon: '🐔' },
+      I: { word: 'Ikan', icon: '🐟' },
+      U: { word: 'Ular', icon: '🐍' },
+      E: { word: 'Elang', icon: '🦅' },
+      O: { word: 'Orang Utan', icon: '🦧' }
+    };
+
+    function fallbackCoverData() {
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620">
+          <defs>
+            <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#b7ecff"/>
+              <stop offset="55%" stop-color="#fff6c7"/>
+              <stop offset="100%" stop-color="#ffd1e7"/>
+            </linearGradient>
+          </defs>
+          <rect width="900" height="620" rx="44" fill="url(#bg)"/>
+          <circle cx="150" cy="132" r="52" fill="#fff" opacity="0.72"/>
+          <circle cx="730" cy="128" r="68" fill="#ffdf65" opacity="0.86"/>
+          <text x="450" y="238" text-anchor="middle" font-family="Fredoka, Arial, sans-serif" font-weight="800" font-size="82" fill="#26335d">Misi Balon Vokal</text>
+          <text x="450" y="342" text-anchor="middle" font-family="Fredoka, Arial, sans-serif" font-weight="800" font-size="116" fill="#ff65ad">A I U E O</text>
+          <text x="450" y="430" text-anchor="middle" font-family="Fredoka, Arial, sans-serif" font-weight="700" font-size="34" fill="#26335d" opacity="0.82">Belajar vokal sambil bermain</text>
+          <circle cx="210" cy="480" r="42" fill="#6c7cff" opacity="0.82"/>
+          <circle cx="312" cy="496" r="34" fill="#24bc72" opacity="0.82"/>
+          <circle cx="590" cy="490" r="38" fill="#ffad2f" opacity="0.82"/>
+          <circle cx="690" cy="474" r="46" fill="#36aef8" opacity="0.82"/>
+        </svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    function githubPathToRawUrl(path) {
+      const encodedPath = path.split('/').map(part => encodeURIComponent(part)).join('/');
+      return `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${githubBranch}/${encodedPath}`;
+    }
+
+    function githubPathToJsDelivrUrl(path) {
+      const encodedPath = path.split('/').map(part => encodeURIComponent(part)).join('/');
+      return `https://cdn.jsdelivr.net/gh/${githubOwner}/${githubRepo}@${githubBranch}/${encodedPath}`;
+    }
+
+    async function getGithubTree() {
+      if (githubTreeCache) return githubTreeCache;
+      githubTreeCache = fetch(githubTreeApi, {
+        headers: { Accept: 'application/vnd.github+json' },
+        cache: 'no-store'
+      })
+        .then(response => response.ok ? response.json() : { tree: [] })
+        .catch(() => ({ tree: [] }));
+      return githubTreeCache;
+    }
+
+    function mediaSourcesFromPaths(paths = []) {
+      const sources = [];
+      paths.forEach(path => {
+        sources.push(githubPathToJsDelivrUrl(path));
+        sources.push(githubPathToRawUrl(path));
+      });
+      return [...new Set(sources)];
+    }
+
+    async function findCoverVideoSourcesFromGithubRepo() {
+      const data = await getGithubTree();
+      const files = (data.tree || [])
+        .filter(item => item && item.type === 'blob')
+        .filter(item => /\.(mp4|webm|m4v|mov|ogv)$/i.test(item.path || ''))
+        .sort((a, b) => {
+          const score = path => {
+            const text = String(path || '').toLowerCase();
+            return (text.includes('cover') ? 0 : 60) +
+              (text.includes('aplikasi') ? 0 : 12) +
+              (text.endsWith('.mp4') ? 0 : 8) +
+              text.length;
+          };
+          return score(a.path) - score(b.path);
+        });
+      const preferred = files.filter(item => /cover/i.test(item.path || ''));
+      const chosen = (preferred.length ? preferred : files).slice(0, 5).map(item => item.path);
+      return [...new Set([...mediaSourcesFromPaths(chosen), ...defaultCoverVideoSources])];
+    }
+
+    async function findBackgroundMusicSourcesFromGithubRepo() {
+      const data = await getGithubTree();
+      const audioFiles = (data.tree || [])
+        .filter(item => item && item.type === 'blob')
+        .filter(item => /\.(mp3|m4a|aac|wav|ogg)$/i.test(item.path || ''))
+        .sort((a, b) => {
+          const score = path => {
+            const text = String(path || '').toLowerCase();
+            return (/musik|music|backsound|background|latar|lagu|audio|song/.test(text) ? 0 : 40) +
+              (text.endsWith('.mp3') ? 0 : 6) +
+              text.length;
+          };
+          return score(a.path) - score(b.path);
+        });
+      const chosen = audioFiles.slice(0, 6).map(item => item.path);
+      return [...new Set([...mediaSourcesFromPaths(chosen), ...defaultBackgroundMusicSources])];
+    }
+
+
+    function updateCoverSoundButton() {
+      if (!coverSoundBtn || !coverVideo) return;
+      const videoReady = coverVideo.classList.contains('is-ready');
+      coverSoundBtn.classList.toggle('hidden', !videoReady);
+      coverSoundBtn.textContent = coverVideo.muted ? '🔊 Nyalakan Suara' : '🔈 Suara Aktif';
+      coverSoundBtn.setAttribute('aria-label', coverVideo.muted ? 'Nyalakan suara video cover' : 'Suara video cover sudah aktif');
+    }
+
+    async function playCoverVideoWithBestAudio() {
+      if (!coverVideo || !coverVideo.classList.contains('is-ready')) return;
+      coverVideo.volume = 1;
+      coverVideo.muted = false;
+
+      try {
+        await coverVideo.play();
+      } catch (_) {
+        // Jika browser tetap memblokir suara, video tetap diputar agar cover tidak berhenti.
+        // Klik masuk dari loading biasanya sudah cukup untuk mengizinkan audio.
+        coverVideo.muted = true;
+        coverVideo.play().catch(() => {});
+      }
+
+      updateCoverSoundButton();
+    }
+
+    async function enableCoverVideoSound() {
+      if (!coverVideo) return false;
+      await unlockAudio();
+      coverVideo.volume = 1;
+      coverVideo.muted = false;
+
+      try {
+        await coverVideo.play();
+        updateCoverSoundButton();
+        return true;
+      } catch (_) {
+        updateCoverSoundButton();
+        return false;
+      }
+    }
+
+    function trySetCoverVideoSource(src, timeout = 7000) {
+      return new Promise(resolve => {
+        if (!coverVideo || !src) return resolve(false);
+        let done = false;
+        let timer;
+
+        function cleanup() {
+          window.clearTimeout(timer);
+          coverVideo.removeEventListener('loadeddata', onReady);
+          coverVideo.removeEventListener('canplay', onReady);
+          coverVideo.removeEventListener('error', onError);
+        }
+
+        function finish(ok) {
+          if (done) return;
+          done = true;
+          cleanup();
+          if (ok) {
+            coverVideo.classList.add('is-ready');
+            if (coverScreen && !coverScreen.classList.contains('hidden')) {
+              playCoverVideoWithBestAudio();
+            }
+          } else {
+            updateCoverSoundButton();
+          }
+          resolve(ok);
+        }
+
+        function onReady() {
+          finish(coverVideo.readyState >= 2);
+        }
+
+        function onError() {
+          finish(false);
+        }
+
+        coverVideo.classList.remove('is-ready');
+        updateCoverSoundButton();
+        coverVideo.pause();
+        coverVideo.removeAttribute('src');
+        coverVideo.load();
+        coverVideo.addEventListener('loadeddata', onReady);
+        coverVideo.addEventListener('canplay', onReady);
+        coverVideo.addEventListener('error', onError);
+        timer = window.setTimeout(() => finish(coverVideo.readyState >= 2), timeout);
+        coverVideo.src = src;
+        coverVideo.load();
+      });
+    }
+
+    async function attachCoverVideo() {
+      if (!coverVideo) return;
+      const sources = await findCoverVideoSourcesFromGithubRepo();
+      for (const source of sources) {
+        const loaded = await trySetCoverVideoSource(source);
+        if (loaded) return;
+      }
+      coverVideo.classList.remove('is-ready');
+      updateCoverSoundButton();
+      if (coverFallback) coverFallback.hidden = false;
+    }
+
+    function trySetBackgroundMusicSource(src, timeout = 5200) {
+      return new Promise(resolve => {
+        if (!bgMusic || !src) return resolve(false);
+        let done = false;
+        let timer;
+
+        function cleanup() {
+          window.clearTimeout(timer);
+          bgMusic.removeEventListener('canplaythrough', onReady);
+          bgMusic.removeEventListener('canplay', onReady);
+          bgMusic.removeEventListener('error', onError);
+        }
+
+        function finish(ok) {
+          if (done) return;
+          done = true;
+          cleanup();
+          resolve(ok);
+        }
+
+        function onReady() {
+          finish(bgMusic.readyState >= 2);
+        }
+
+        function onError() {
+          finish(false);
+        }
+
+        bgMusic.pause();
+        bgMusic.volume = 0.16;
+        bgMusic.removeAttribute('src');
+        bgMusic.load();
+        bgMusic.addEventListener('canplaythrough', onReady);
+        bgMusic.addEventListener('canplay', onReady);
+        bgMusic.addEventListener('error', onError);
+        timer = window.setTimeout(() => finish(bgMusic.readyState >= 2), timeout);
+        bgMusic.src = src;
+        bgMusic.load();
+      });
+    }
+
+    async function prepareRepositoryBackgroundMusic() {
+      if (repoMusicPrepared) return true;
+      if (repoMusicPreparing) return repoMusicPreparing;
+      repoMusicPreparing = (async () => {
+        const sources = await findBackgroundMusicSourcesFromGithubRepo();
+        for (const source of sources) {
+          const loaded = await trySetBackgroundMusicSource(source);
+          if (loaded) {
+            repoMusicPrepared = true;
+            return true;
+          }
+        }
+        repoMusicPrepared = false;
+        return false;
+      })();
+      return repoMusicPreparing;
+    }
+
+    function ensureMusicGain() {
+      const ctx = getAudioContext();
+      if (!ctx) return null;
+      if (!musicGain) {
+        musicGain = ctx.createGain();
+        musicGain.gain.value = 0.035;
+        musicGain.connect(ctx.destination);
+      }
+      return musicGain;
+    }
+
+    function playSyntheticMusicNote(frequency, duration = 0.24, delay = 0, volume = 0.032) {
+      try {
+        const ctx = getAudioContext();
+        const master = ensureMusicGain();
+        if (!ctx || !master) return;
+        if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const startAt = ctx.currentTime + delay;
+        const stopAt = startAt + duration;
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(frequency, startAt);
+        gain.gain.setValueAtTime(0.0001, startAt);
+        gain.gain.exponentialRampToValueAtTime(Math.max(volume, 0.0001), startAt + 0.025);
+        gain.gain.exponentialRampToValueAtTime(0.0001, stopAt);
+
+        oscillator.connect(gain);
+        gain.connect(master);
+        oscillator.start(startAt);
+        oscillator.stop(stopAt + 0.05);
+      } catch (_) {}
+    }
+
+    function startSyntheticBackgroundMusic() {
+      if (synthMusicTimer) return;
+      const melody = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880.00, 698.46];
+      const bass = [261.63, 293.66, 329.63, 392.00];
+      synthMusicStep = 0;
+      const playStep = () => {
+        if (document.hidden) return;
+        const note = melody[synthMusicStep % melody.length];
+        playSyntheticMusicNote(note, 0.22, 0, 0.028);
+        if (synthMusicStep % 4 === 0) {
+          playSyntheticMusicNote(bass[Math.floor(synthMusicStep / 4) % bass.length], 0.34, 0.02, 0.018);
+        }
+        synthMusicStep += 1;
+      };
+      playStep();
+      synthMusicTimer = window.setInterval(playStep, 430);
+    }
+
+    function stopSyntheticBackgroundMusic() {
+      if (synthMusicTimer) window.clearInterval(synthMusicTimer);
+      synthMusicTimer = null;
+    }
+
+    async function startBackgroundMusic() {
+      await unlockAudio();
+      if (backgroundMusicStarted) return;
+      backgroundMusicStarted = true;
+      const hasRepoMusic = await prepareRepositoryBackgroundMusic();
+      if (hasRepoMusic && bgMusic) {
+        try {
+          bgMusic.volume = 0.16;
+          await bgMusic.play();
+          stopSyntheticBackgroundMusic();
+          return;
+        } catch (_) {
+          // Jika browser menolak file audio eksternal, gunakan musik sintetis ringan.
+        }
+      }
+      startSyntheticBackgroundMusic();
+    }
+
+    function duckBackgroundMusic(duration = 1200) {
+      if (bgMusic && !bgMusic.paused) {
+        const previousVolume = bgMusic.volume;
+        bgMusic.volume = Math.min(previousVolume, 0.07);
+        window.setTimeout(() => { bgMusic.volume = previousVolume || 0.16; }, duration);
+      }
+      if (musicGain) {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        musicGain.gain.cancelScheduledValues(now);
+        musicGain.gain.setValueAtTime(0.014, now);
+        musicGain.gain.linearRampToValueAtTime(0.035, now + duration / 1000);
+      }
+    }
+
+    async function findCoverSourcesFromGithubRepo() {
+      const sources = [];
+
+      try {
+        const response = await fetch(githubTreeApi, {
+          headers: { Accept: 'application/vnd.github+json' },
+          cache: 'no-store'
+        });
+        if (!response.ok) return defaultCoverImageSources;
+
+        const data = await response.json();
+        const coverFiles = (data.tree || [])
+          .filter(item => item && item.type === 'blob')
+          .filter(item => /cover/i.test(item.path || ''))
+          .filter(item => /\.(png|jpe?g|webp|gif|svg)$/i.test(item.path || ''))
+          .sort((a, b) => {
+            const ap = a.path.toLowerCase();
+            const bp = b.path.toLowerCase();
+            const score = path =>
+              (path.includes('aplikasi') ? 0 : 20) +
+              (path.endsWith('.png') ? 0 : 5) +
+              path.length;
+            return score(ap) - score(bp);
+          });
+
+        coverFiles.slice(0, 4).forEach(file => {
+          sources.push(githubPathToJsDelivrUrl(file.path));
+          sources.push(githubPathToRawUrl(file.path));
+        });
+      } catch (error) {
+        // Koneksi, batas akses GitHub, atau CORS bisa gagal; lanjutkan ke sumber cadangan.
+      }
+
+      return [...new Set([...sources, ...defaultCoverImageSources])];
+    }
+
+    function trySetCoverSource(src, timeout = 4500) {
+      return new Promise(resolve => {
+        if (!coverImage || !src) return resolve(false);
+        let done = false;
+        let timer;
+
+        function cleanup() {
+          window.clearTimeout(timer);
+          coverImage.removeEventListener('load', onLoad);
+          coverImage.removeEventListener('error', onError);
+        }
+
+        function finish(ok) {
+          if (done) return;
+          done = true;
+          cleanup();
+          resolve(ok);
+        }
+
+        function onLoad() {
+          finish(coverImage.naturalWidth > 0);
+        }
+
+        function onError() {
+          finish(false);
+        }
+
+        coverImage.addEventListener('load', onLoad);
+        coverImage.addEventListener('error', onError);
+        timer = window.setTimeout(() => {
+          finish(Boolean(coverImage.complete && coverImage.naturalWidth > 0));
+        }, timeout);
+
+        coverImage.src = src;
+      });
+    }
+
+    async function attachCoverFallback() {
+      if (!coverImage) return;
+      const sources = await findCoverSourcesFromGithubRepo();
+
+      for (const source of sources) {
+        const loaded = await trySetCoverSource(source);
+        if (loaded) return;
+      }
+
+      coverImage.src = fallbackCoverData();
+    }
+
+    function fallbackImageData(letter) {
+      const theme = letterThemes[letter] || { color: '#6c7cff', light: '#c5d0ff' };
+      const item = fallbackWords[letter] || { word: `Huruf ${letter}`, icon: '⭐' };
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+          <defs>
+            <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="${theme.light}"/>
+              <stop offset="1" stop-color="#ffffff"/>
+            </linearGradient>
+            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#26335d" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <rect x="6" y="6" width="244" height="244" rx="28" fill="url(#bg)" stroke="${theme.color}" stroke-width="8"/>
+          <circle cx="218" cy="38" r="14" fill="#fff7a6" opacity="0.9"/>
+          <circle cx="32" cy="42" r="8" fill="#ffffff" opacity="0.9"/>
+          <text x="68" y="154" font-family="Fredoka, Arial, sans-serif" font-weight="800" font-size="128" fill="${theme.color}" stroke="white" stroke-width="8" paint-order="stroke" filter="url(#shadow)">${letter}</text>
+          <text x="168" y="138" font-size="62" text-anchor="middle">${item.icon}</text>
+          <text x="128" y="218" font-family="Fredoka, Arial, sans-serif" font-weight="800" font-size="31" text-anchor="middle" fill="${theme.color}" stroke="white" stroke-width="5" paint-order="stroke">${item.word}</text>
+        </svg>
+      `;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    function attachImageFallback(img) {
+      const letter = img.dataset.letterImg;
+      if (!letter) return;
+      const sources = letterImageSources[letter] || [];
+      let index = Number(img.dataset.imgIndex || 0);
+      let finished = false;
+
+      function useFallback() {
+        if (finished) return;
+        finished = true;
+        img.classList.add('local-fallback-image');
+        img.src = fallbackImageData(letter);
+      }
+
+      function tryNextSource() {
+        if (finished) return;
+        index += 1;
+        if (index < sources.length) {
+          img.dataset.imgIndex = String(index);
+          img.src = sources[index];
+          window.setTimeout(() => {
+            if (!img.complete || img.naturalWidth === 0) tryNextSource();
+          }, 2600);
+        } else {
+          useFallback();
+        }
+      }
+
+      img.addEventListener('load', () => {
+        if (img.naturalWidth > 0) finished = true;
+      }, { once: true });
+      img.addEventListener('error', tryNextSource);
+      window.setTimeout(() => {
+        if (!img.complete || img.naturalWidth === 0) tryNextSource();
+      }, 2600);
+    }
+
+    function createLetterImage(letter) {
+      const img = document.createElement('img');
+      img.dataset.letterImg = letter;
+      img.dataset.imgIndex = '0';
+      img.src = letterImageSources[letter][0];
+      img.alt = `Gambar huruf ${letter}`;
+      img.loading = 'eager';
+      img.decoding = 'async';
+      img.referrerPolicy = 'no-referrer';
+      attachImageFallback(img);
+      return img;
+    }
+
+    function applyResilientLetterImages() {
+      document.querySelectorAll('img[data-letter-img]').forEach(attachImageFallback);
+    }
+
+    const palettes = [
+      ['#ff6fb4', '#ffc0df'],
+      ['#6c7cff', '#c5d0ff'],
+      ['#24bc72', '#b4f0cc'],
+      ['#ffad2f', '#ffe09b'],
+      ['#36aef8', '#c7eaff'],
+      ['#ff7a5c', '#ffd1c4'],
+      ['#9b5cff', '#dec9ff'],
+      ['#00c2a8', '#baf7ec'],
+      ['#ff5f7e', '#ffc8d3'],
+      ['#7ac943', '#d6f7b8']
+    ];
+
+    const lastPaletteIndexByLetter = {};
+
+    let selectedLetter = 'A';
+    let useDistractors = true;
+    let score = 0;
+    let lives = maxLives;
+    let timeLeft = maxTime;
+    let gameRunning = false;
+    let paused = false;
+    let spawnTimer = null;
+    let countdownTimer = null;
+    let audioContext = null;
+    let indonesianVoice = null;
+    let voiceLoadPromise = null;
+
+    const vowelSpeechText = {
+      A: 'a',
+      I: 'i',
+      U: 'u',
+      // Aksen pada E membantu TTS Indonesia membaca bunyi /e/, bukan nama huruf versi Inggris.
+      E: 'é',
+      O: 'o'
+    };
+
+    function setVh() {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    }
+
+    window.addEventListener('resize', setVh);
+    setVh();
+
+    let audioUnlocked = false;
+    let buttonSoundLock = 0;
+
+    function updateSoundStatus(message) {
+      if (!soundStatus) return;
+      soundStatus.textContent = message;
+    }
+
+    function getAudioContext() {
+      try {
+        const AudioCtor = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtor) {
+          updateSoundStatus('🔇 Browser ini belum mendukung efek suara Web Audio.');
+          return null;
+        }
+        audioContext ??= new AudioCtor();
+        return audioContext;
+      } catch (_) {
+        updateSoundStatus('🔇 Efek suara belum bisa dijalankan di browser ini.');
+        return null;
+      }
+    }
+
+    async function unlockAudio() {
+      const ctx = getAudioContext();
+      if (!ctx) return false;
+
+      try {
+        if (ctx.state === 'suspended') {
+          await ctx.resume();
+        }
+
+        // Beberapa browser baru mengaktifkan audio hanya setelah ada sumber suara dibuat
+        // tepat pada gestur pertama. Nada ini volumenya sangat kecil agar tidak mengganggu.
+        if (!audioUnlocked) {
+          const oscillator = ctx.createOscillator();
+          const gain = ctx.createGain();
+          oscillator.frequency.value = 440;
+          gain.gain.value = 0.00001;
+          oscillator.connect(gain);
+          gain.connect(ctx.destination);
+          oscillator.start();
+          oscillator.stop(ctx.currentTime + 0.025);
+        }
+
+        audioUnlocked = ctx.state === 'running';
+        updateSoundStatus(audioUnlocked
+          ? '🎵 Efek suara aktif.'
+          : '🎵 Klik layar sekali lagi jika efek suara belum terdengar.');
+        return audioUnlocked;
+      } catch (_) {
+        updateSoundStatus('🎵 Klik layar sekali lagi untuk mengaktifkan efek suara.');
+        return false;
+      }
+    }
+
+    function sound(frequency = 620, duration = 0.08, type = 'triangle', volume = 0.12, delay = 0, slideTo = null) {
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const startAt = ctx.currentTime + delay;
+        const stopAt = startAt + duration;
+
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(frequency, startAt);
+        if (slideTo) {
+          oscillator.frequency.exponentialRampToValueAtTime(Math.max(1, slideTo), stopAt);
+        }
+
+        gain.gain.setValueAtTime(0.0001, startAt);
+        gain.gain.exponentialRampToValueAtTime(Math.max(volume, 0.0001), startAt + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, stopAt);
+
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+        oscillator.start(startAt);
+        oscillator.stop(stopAt + 0.03);
+      } catch (_) {}
+    }
+
+    function noiseBurst(duration = 0.07, volume = 0.16, delay = 0) {
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+
+        const sampleRate = ctx.sampleRate;
+        const frameCount = Math.max(1, Math.floor(sampleRate * duration));
+        const buffer = ctx.createBuffer(1, frameCount, sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < frameCount; i++) {
+          const decay = 1 - i / frameCount;
+          data[i] = (Math.random() * 2 - 1) * decay * decay;
+        }
+
+        const source = ctx.createBufferSource();
+        const filter = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+        const startAt = ctx.currentTime + delay;
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(950, startAt);
+        filter.Q.setValueAtTime(0.75, startAt);
+        gain.gain.setValueAtTime(volume, startAt);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+
+        source.buffer = buffer;
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        source.start(startAt);
+        source.stop(startAt + duration + 0.02);
+      } catch (_) {}
+    }
+
+    function playButtonSound() {
+      unlockAudio();
+      sound(720, 0.045, 'square', 0.065);
+      sound(980, 0.055, 'triangle', 0.07, 0.035);
+    }
+
+    function playEmptyPopSound() {
+      unlockAudio();
+      // Efek lokal untuk gelembung polos: hentakan pendek + noise nyaring, seperti balon meletus.
+      noiseBurst(0.12, 0.42);
+      noiseBurst(0.045, 0.32, 0.018);
+      sound(180, 0.075, 'sine', 0.18, 0, 70);
+      sound(820, 0.028, 'square', 0.16, 0.004, 260);
+    }
+
+    function playCorrectPopSound() {
+      unlockAudio();
+      noiseBurst(0.055, 0.13);
+      sound(660, 0.07, 'triangle', 0.09, 0.01);
+      sound(900, 0.08, 'triangle', 0.085, 0.06);
+    }
+
+    function playWrongPopSound() {
+      unlockAudio();
+      noiseBurst(0.08, 0.11);
+      sound(220, 0.12, 'sawtooth', 0.07, 0, 120);
+      sound(150, 0.12, 'sawtooth', 0.052, 0.08, 90);
+    }
+
+    function playWinSound() {
+      unlockAudio();
+      [523, 659, 784, 1046, 1318].forEach((note, index) => {
+        sound(note, 0.14, 'triangle', 0.105, index * 0.105);
+      });
+      noiseBurst(0.12, 0.12, 0.48);
+    }
+
+    function playLoseSound() {
+      unlockAudio();
+      [392, 330, 262, 196].forEach((note, index) => {
+        sound(note, 0.16, 'triangle', 0.09, index * 0.13);
+      });
+      sound(160, 0.25, 'sine', 0.06, 0.44, 95);
+    }
+
+    function getCachedRemoteAudio(cacheKey, sources, volume = 0.85) {
+      if (!sources || !sources.length) return null;
+      if (!remoteSoundCache.has(cacheKey)) {
+        const audio = new Audio();
+        audio.preload = 'auto';
+        audio.crossOrigin = 'anonymous';
+        audio.volume = volume;
+        audio.dataset.sourceIndex = '0';
+        audio.src = sources[0];
+        remoteSoundCache.set(cacheKey, audio);
+      }
+      return remoteSoundCache.get(cacheKey);
+    }
+
+    function playRemoteSound(cacheKey, sources, volume = 0.85, fallback = null) {
+      unlockAudio();
+      const audio = getCachedRemoteAudio(cacheKey, sources, volume);
+      if (!audio) {
+        if (typeof fallback === 'function') fallback();
+        return;
+      }
+
+      const tryPlay = () => {
+        try {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.volume = volume;
+          const playPromise = audio.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+              const currentIndex = Number(audio.dataset.sourceIndex || 0);
+              const nextIndex = currentIndex + 1;
+              if (nextIndex < sources.length) {
+                audio.dataset.sourceIndex = String(nextIndex);
+                audio.src = sources[nextIndex];
+                audio.load();
+                setTimeout(tryPlay, 40);
+              } else if (typeof fallback === 'function') {
+                fallback();
+              }
+            });
+          }
+        } catch (_) {
+          if (typeof fallback === 'function') fallback();
+        }
+      };
+
+      tryPlay();
+    }
+
+    function preloadRemoteLetterSounds() {
+      if (remoteSoundsPreloaded) return;
+      remoteSoundsPreloaded = true;
+      vowels.forEach(letter => {
+        const buttonAudio = getCachedRemoteAudio(`button-${letter}`, buttonLetterSoundSources[letter], 0.88);
+        const bubbleAudio = getCachedRemoteAudio(`bubble-${letter}`, bubbleLetterSoundSources[letter], 0.9);
+        buttonAudio?.load?.();
+        bubbleAudio?.load?.();
+      });
+    }
+
+    function playLetterButtonSound(letter) {
+      const normalizedLetter = String(letter || '').toUpperCase();
+      const sources = buttonLetterSoundSources[normalizedLetter];
+      playRemoteSound(`button-${normalizedLetter}`, sources, 0.88, playButtonSound);
+    }
+
+    function playLetterBubbleSound(letter) {
+      const normalizedLetter = String(letter || '').toUpperCase();
+      const sources = bubbleLetterSoundSources[normalizedLetter];
+      playRemoteSound(`bubble-${normalizedLetter}`, sources, 0.92, () => speakVowel(normalizedLetter));
+    }
+
+    function playEmptyBubbleSound() {
+      playEmptyPopSound();
+    }
+
+    function normalizeLang(lang = '') {
+      return String(lang || '').toLowerCase().replace('_', '-');
+    }
+
+    function scoreIndonesianVoice(voice) {
+      const lang = normalizeLang(voice.lang);
+      const name = `${voice.name || ''} ${voice.voiceURI || ''}`.toLowerCase();
+      let scoreValue = 0;
+
+      if (lang === 'id-id') scoreValue += 120;
+      else if (lang === 'id') scoreValue += 110;
+      else if (lang.startsWith('id-')) scoreValue += 105;
+
+      if (/bahasa indonesia|indonesian|indonesia/.test(name)) scoreValue += 70;
+      if (/google|microsoft|gadis|ardi|damayanti/.test(name)) scoreValue += 12;
+      if (voice.localService) scoreValue += 4;
+      if (/english|en-us|en-gb|inggris/.test(`${name} ${lang}`)) scoreValue -= 80;
+
+      return scoreValue;
+    }
+
+    function findBestIndonesianVoice(voices = []) {
+      return voices
+        .map(voice => ({ voice, score: scoreIndonesianVoice(voice) }))
+        .filter(item => item.score >= 70)
+        .sort((a, b) => b.score - a.score)[0]?.voice || null;
+    }
+
+    function updateVoiceStatus() {
+      if (!voiceStatus) return;
+
+      if (!('speechSynthesis' in window)) {
+        voiceStatus.textContent = '🔇 Browser ini belum mendukung Web Speech API.';
+        return;
+      }
+
+      if (indonesianVoice) {
+        const lang = indonesianVoice.lang || 'id-ID';
+        voiceStatus.textContent = `🔊 Suara Indonesia aktif (${lang}). Balon huruf akan berbunyi sesuai vokalnya.`;
+      } else {
+        voiceStatus.textContent = '🔊 Suara disetel ke id-ID. Bila masih terdengar seperti bahasa Inggris, aktifkan/install suara Bahasa Indonesia di pengaturan perangkat.';
+      }
+    }
+
+    function loadIndonesianVoice() {
+      if (!('speechSynthesis' in window)) {
+        updateVoiceStatus();
+        return null;
+      }
+
+      const voices = window.speechSynthesis.getVoices();
+      indonesianVoice = findBestIndonesianVoice(voices);
+      updateVoiceStatus();
+      return indonesianVoice;
+    }
+
+    function waitForVoices(timeout = 1800) {
+      if (!('speechSynthesis' in window)) return Promise.resolve([]);
+
+      const existingVoices = window.speechSynthesis.getVoices();
+      if (existingVoices.length) return Promise.resolve(existingVoices);
+
+      if (voiceLoadPromise) return voiceLoadPromise;
+
+      voiceLoadPromise = new Promise(resolve => {
+        let finished = false;
+        const finish = () => {
+          if (finished) return;
+          finished = true;
+          window.speechSynthesis.removeEventListener('voiceschanged', finish);
+          resolve(window.speechSynthesis.getVoices());
+        };
+
+        window.speechSynthesis.addEventListener('voiceschanged', finish);
+        window.setTimeout(finish, timeout);
+      });
+
+      return voiceLoadPromise;
+    }
+
+    async function ensureIndonesianVoice() {
+      if (!('speechSynthesis' in window)) {
+        updateVoiceStatus();
+        return null;
+      }
+
+      try { window.speechSynthesis.resume(); } catch (_) {}
+
+      indonesianVoice = loadIndonesianVoice();
+      if (indonesianVoice) return indonesianVoice;
+
+      const voices = await waitForVoices();
+      indonesianVoice = findBestIndonesianVoice(voices);
+      updateVoiceStatus();
+      return indonesianVoice;
+    }
+
+    function warmUpVoice() {
+      unlockAudio();
+
+      if (!('speechSynthesis' in window)) {
+        updateVoiceStatus();
+        return;
+      }
+
+      try { window.speechSynthesis.resume(); } catch (_) {}
+      ensureIndonesianVoice();
+    }
+
+    async function speakVowel(letter) {
+      if (!letter || !('speechSynthesis' in window)) {
+        updateVoiceStatus();
+        return;
+      }
+
+      const voice = indonesianVoice || await ensureIndonesianVoice();
+      const text = vowelSpeechText[letter] || letter.toLowerCase();
+      const utterance = new SpeechSynthesisUtterance(text);
+
+      // Penting: paksa bahasa Indonesia. Jika perangkat punya voice id-ID, voice itu juga dipasang langsung.
+      utterance.lang = voice?.lang || 'id-ID';
+      if (voice) utterance.voice = voice;
+      utterance.rate = 0.62;
+      utterance.pitch = 1.08;
+      utterance.volume = 1;
+
+      try {
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+      } catch (_) {}
+    }
+
+    if ('speechSynthesis' in window) {
+      loadIndonesianVoice();
+      window.speechSynthesis.addEventListener('voiceschanged', () => {
+        voiceLoadPromise = null;
+        loadIndonesianVoice();
+      });
+      document.addEventListener('pointerdown', warmUpVoice, { once: true, passive: true });
+      document.addEventListener('touchstart', warmUpVoice, { once: true, passive: true });
+    } else {
+      updateVoiceStatus();
+    }
+
+    function updateMenuUI() {
+      document.querySelectorAll('.letter-btn').forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.letter === selectedLetter));
+      });
+
+      document.querySelectorAll('.mode-btn').forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.distractor === String(useDistractors)));
+      });
+
+      const theme = letterThemes[selectedLetter];
+      document.documentElement.style.setProperty('--target-color', theme.color);
+      document.documentElement.style.setProperty('--target-light', theme.light);
+      // Preview balon di atas menu sengaja memakai teks huruf,
+      // bukan gambar, agar tampilannya konsisten dengan balon saat bermain.
+      previewBubble.textContent = selectedLetter;
+      previewBubble.setAttribute('aria-label', `Contoh balon huruf ${selectedLetter}`);
+      targetDisplay.textContent = selectedLetter;
+      gameTitle.textContent = `🫧 Misi Huruf ${selectedLetter}`;
+      if (menuTip) menuTip.innerHTML = `✅ Sentuh balon huruf <strong>${selectedLetter}</strong>.`;
+      gameHint.textContent = useDistractors
+        ? `Sentuh balon huruf ${selectedLetter}. Huruf vokal lain adalah pengecoh. Balon kosong aman.`
+        : `Sentuh balon huruf ${selectedLetter}. Balon kosong boleh meletus, tapi tidak menambah skor.`;
+    }
+
+    function runLoadingCounter() {
+      return new Promise(resolve => {
+        const number = loadingScreen?.querySelector('.counter h1');
+        const line = loadingScreen?.querySelector('.counter hr');
+
+        if (!loadingScreen || !number || !line) {
+          window.setTimeout(resolve, 2600);
+          return;
+        }
+
+        if (loadingNextBtn) loadingNextBtn.classList.add('hidden');
+        if (loadingReadyText) loadingReadyText.textContent = '';
+
+        let counter = 0;
+        const timer = window.setInterval(() => {
+          number.textContent = `${counter}%`;
+          line.style.width = `${counter}%`;
+
+          if (counter >= 100) {
+            window.clearInterval(timer);
+            window.setTimeout(resolve, 180);
+            return;
+          }
+
+          counter += 1;
+        }, 50);
+      });
+    }
+
+    let loadingFinished = false;
+    let loadingReadyForNext = false;
+
+    function showLoadingContinueButton() {
+      loadingReadyForNext = true;
+      if (loadingNextBtn) loadingNextBtn.classList.remove('hidden');
+    }
+
+    async function enterCoverAfterLoading() {
+      if (!loadingReadyForNext) return;
+      await unlockAudio();
+      preloadRemoteLetterSounds();
+      showCoverAfterLoading();
+      await enableCoverVideoSound();
+    }
+
+    function showCoverAfterLoading() {
+      coverScreen.classList.remove('hidden');
+
+      if (loadingScreen && !loadingFinished && !loadingScreen.classList.contains('hidden')) {
+        loadingFinished = true;
+        loadingScreen.classList.add('loading-screen-exit');
+        window.setTimeout(() => {
+          loadingScreen.classList.add('hidden');
+          loadingScreen.classList.remove('loading-screen-exit');
+        }, 500);
+      } else if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
+      }
+
+      if (coverVideo && coverVideo.classList.contains('is-ready')) {
+        playCoverVideoWithBestAudio();
+      }
+    }
+
+    function showStartMenu() {
+      clearTimers();
+      removeGameObjects();
+      gameRunning = false;
+      paused = false;
+      pauseBtn.textContent = '⏸️';
+      if (loadingScreen) loadingScreen.classList.add('hidden');
+      if (coverVideo && !coverVideo.paused) coverVideo.pause();
+      coverScreen.classList.add('hidden');
+      endScreen.classList.add('hidden');
+      startScreen.classList.remove('hidden');
+      warmUpVoice();
+      startBackgroundMusic();
+      updateMenuUI();
+      updateHUD();
+    }
+
+    function startGame() {
+      clearTimers();
+      removeGameObjects();
+      warmUpVoice();
+      startBackgroundMusic();
+      score = 0;
+      lives = maxLives;
+      timeLeft = maxTime;
+      gameRunning = true;
+      paused = false;
+      pauseBtn.textContent = '⏸️';
+      if (loadingScreen) loadingScreen.classList.add('hidden');
+      if (coverVideo && !coverVideo.paused) coverVideo.pause();
+      coverScreen.classList.add('hidden');
+      startScreen.classList.add('hidden');
+      endScreen.classList.add('hidden');
+      updateMenuUI();
+      updateHUD();
+      scheduleSpawn();
+      countdownTimer = setInterval(tickTime, 1000);
+    }
+
+    function showMenu() {
+      clearTimers();
+      removeGameObjects();
+      gameRunning = false;
+      paused = false;
+      pauseBtn.textContent = '⏸️';
+      if (loadingScreen) loadingScreen.classList.add('hidden');
+      if (coverVideo && !coverVideo.paused) coverVideo.pause();
+      coverScreen.classList.add('hidden');
+      endScreen.classList.add('hidden');
+      startScreen.classList.remove('hidden');
+      startBackgroundMusic();
+      updateMenuUI();
+      updateHUD();
+    }
+
+    function clearTimers() {
+      if (spawnTimer) clearTimeout(spawnTimer);
+      if (countdownTimer) clearInterval(countdownTimer);
+      spawnTimer = null;
+      countdownTimer = null;
+    }
+
+    function removeGameObjects() {
+      document.querySelectorAll('.bubble, .spark, .float-text').forEach(el => el.remove());
+    }
+
+    function tickTime() {
+      if (!gameRunning || paused) return;
+      timeLeft -= 1;
+      updateHUD();
+      if (timeLeft <= 0) {
+        endGame(false, `Waktu habis. Coba lagi, cari balon huruf ${selectedLetter} ya.`);
+      }
+    }
+
+    function scheduleSpawn() {
+      if (!gameRunning) return;
+      const delay = randomBetween(1350, 1900);
+      spawnTimer = setTimeout(() => {
+        if (!paused && document.querySelectorAll('.bubble').length < maxBubblesOnScreen) {
+          spawnBubble();
+        }
+        scheduleSpawn();
+      }, delay);
+    }
+
+    function spawnBubble() {
+      const visualSize = randomBetween(84, 124);
+      const extraTouchArea = 36;
+      const hitSize = visualSize + extraTouchArea;
+      const kind = chooseBubbleKind();
+      const isTarget = kind === 'target';
+      const isLetterDistractor = kind === 'letterDistractor';
+      const isEmpty = kind === 'empty';
+      const letter = isTarget ? selectedLetter : (isLetterDistractor ? randomDistractorLetter() : '');
+      const palette = chooseBubblePalette(letter || 'empty');
+      const color = palette[0];
+      const light = palette[1];
+      const left = randomBetween(6, Math.max(6, area.clientWidth - hitSize - 6));
+      const duration = randomBetween(8.8, 12.4);
+      const drift = randomBetween(-24, 24);
+
+      const bubble = document.createElement('button');
+      bubble.type = 'button';
+      bubble.className = 'bubble';
+      bubble.style.left = `${left}px`;
+      bubble.style.top = `calc(100% + ${hitSize}px)`;
+      bubble.style.setProperty('--size', `${visualSize}px`);
+      bubble.style.setProperty('--hit-size', `${hitSize}px`);
+      bubble.style.setProperty('--duration', `${duration}s`);
+      bubble.style.setProperty('--drift', `${drift}px`);
+      bubble.dataset.isTarget = String(isTarget);
+      bubble.dataset.isLetterDistractor = String(isLetterDistractor);
+      bubble.dataset.isEmpty = String(isEmpty);
+      bubble.dataset.hasLetter = String(Boolean(letter));
+      bubble.dataset.letter = letter;
+
+      if (isTarget) {
+        bubble.setAttribute('aria-label', `Balon huruf ${selectedLetter}`);
+      } else if (isLetterDistractor) {
+        bubble.setAttribute('aria-label', `Balon pengecoh huruf ${letter}`);
+      } else {
+        bubble.setAttribute('aria-label', 'Balon kosong');
+      }
+
+      const face = document.createElement('span');
+      face.className = 'bubble-face';
+      face.textContent = letter;
+      face.style.setProperty('--color', color);
+      face.style.setProperty('--light', light);
+      bubble.appendChild(face);
+
+      const handlePop = event => {
+        event.preventDefault();
+        popBubble(bubble);
+      };
+
+      bubble.addEventListener('pointerdown', handlePop, { passive: false });
+      bubble.addEventListener('touchstart', handlePop, { passive: false });
+      bubble.addEventListener('mousedown', handlePop);
+      bubble.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') handlePop(event);
+      });
+
+      bubble.addEventListener('animationend', () => {
+        if (bubble.isConnected && !bubble.classList.contains('pop')) bubble.remove();
+      });
+
+      area.appendChild(bubble);
+    }
+
+    function popBubble(bubble) {
+      if (!gameRunning || paused || bubble.classList.contains('pop')) return;
+
+      const rect = bubble.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const hasLetter = bubble.dataset.hasLetter === 'true';
+      const isTarget = bubble.dataset.isTarget === 'true';
+      const isLetterDistractor = bubble.dataset.isLetterDistractor === 'true';
+      const letter = bubble.dataset.letter;
+
+      bubble.classList.add('pop');
+      createSparks(x, y, hasLetter ? 7 : 5);
+
+      if (hasLetter) {
+        playLetterBubbleSound(letter);
+      }
+
+      if (isTarget) {
+        score += 1;
+        createText(x, y, `+1 ${letter}`, '#ff5fae');
+      } else if (isLetterDistractor) {
+        lives -= 1;
+        createText(x, y, `${letter} bukan ${selectedLetter}`, '#ef4565');
+      } else {
+        createText(x, y, 'pop!', '#36aef8');
+        playEmptyBubbleSound();
+      }
+
+      setTimeout(() => bubble.remove(), 230);
+      updateHUD();
+
+      if (score >= targetScore) {
+        endGame(true, `Bagus sekali! Semua balon huruf ${selectedLetter} berhasil kamu temukan.`);
+      } else if (lives <= 0) {
+        endGame(false, `Nyawa habis. Sentuh hanya balon huruf ${selectedLetter} ya. Balon kosong aman.`);
+      }
+    }
+
+    function updateHUD() {
+      targetDisplay.textContent = selectedLetter;
+      scoreDisplay.textContent = `${score}/${targetScore}`;
+      livesDisplay.textContent = '❤️'.repeat(Math.max(0, lives)) + '🤍'.repeat(Math.max(0, maxLives - lives));
+      timeDisplay.textContent = Math.max(0, timeLeft);
+      progressFill.style.width = `${Math.min(100, (score / targetScore) * 100)}%`;
+    }
+
+    function endGame(won, message) {
+      if (!gameRunning) return;
+      gameRunning = false;
+      paused = false;
+      clearTimers();
+      document.querySelectorAll('.bubble').forEach(bubble => {
+        bubble.classList.add('pop');
+        setTimeout(() => bubble.remove(), 230);
+      });
+      endEmoji.textContent = won ? '🎉' : '🙂';
+      endTitle.textContent = won ? 'Kamu Hebat!' : 'Coba Lagi Ya';
+      endMessage.textContent = message;
+      finalScore.textContent = `${score}/${targetScore}`;
+      endScreen.classList.remove('hidden');
+      duckBackgroundMusic(1500);
+      if (won) playWinSound();
+      else playLoseSound();
+    }
+
+    function togglePause() {
+      if (!gameRunning) return;
+      paused = !paused;
+      pauseBtn.textContent = paused ? '▶️' : '⏸️';
+      document.querySelectorAll('.bubble').forEach(bubble => {
+        bubble.style.animationPlayState = paused ? 'paused' : 'running';
+      });
+    }
+
+    function createSparks(x, y, count) {
+      const colors = ['#ff7abf', '#ffcf5a', '#57d680', '#5bb9ff', '#ffffff'];
+      for (let i = 0; i < count; i++) {
+        const spark = document.createElement('span');
+        const angle = (Math.PI * 2 * i) / count;
+        const distance = randomBetween(34, 68);
+        spark.className = 'spark';
+        spark.style.left = `${x}px`;
+        spark.style.top = `${y}px`;
+        spark.style.setProperty('--spark-color', colors[Math.floor(Math.random() * colors.length)]);
+        spark.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+        spark.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 480);
+      }
+    }
+
+    function createText(x, y, text, color) {
+      const label = document.createElement('span');
+      label.className = 'float-text';
+      label.textContent = text;
+      label.style.left = `${x}px`;
+      label.style.top = `${y}px`;
+      label.style.setProperty('--text-color', color);
+      document.body.appendChild(label);
+      setTimeout(() => label.remove(), 650);
+    }
+
+    function chooseBubbleKind() {
+      const chance = Math.random();
+      if (useDistractors) {
+        if (chance < 0.56) return 'target';
+        if (chance < 0.86) return 'letterDistractor';
+        return 'empty';
+      }
+      return chance < 0.68 ? 'target' : 'empty';
+    }
+
+    function chooseBubblePalette(key = 'empty') {
+      let index = Math.floor(Math.random() * palettes.length);
+      if (palettes.length > 1 && lastPaletteIndexByLetter[key] === index) {
+        index = (index + 1 + Math.floor(Math.random() * (palettes.length - 1))) % palettes.length;
+      }
+      lastPaletteIndexByLetter[key] = index;
+      return palettes[index];
+    }
+
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    function randomDistractorLetter() {
+      const options = vowels.filter(letter => letter !== selectedLetter);
+      return options[Math.floor(Math.random() * options.length)];
+    }
+
+    function playButtonSoundFromEvent(event) {
+      const button = event.target?.closest?.('button');
+      if (!button || button.disabled || button.dataset.sfx === 'off' || button.classList.contains('bubble')) return;
+      const now = performance.now();
+      if (now - buttonSoundLock < 80) return;
+      buttonSoundLock = now;
+      if (button.classList.contains('letter-btn') && button.dataset.letter) {
+        playLetterButtonSound(button.dataset.letter);
+        return;
+      }
+      playButtonSound();
+    }
+
+    document.addEventListener('pointerdown', event => {
+      unlockAudio();
+      preloadRemoteLetterSounds();
+      playButtonSoundFromEvent(event);
+    }, { capture: true, passive: true });
+
+    document.addEventListener('touchstart', () => {
+      unlockAudio();
+      preloadRemoteLetterSounds();
+    }, { capture: true, passive: true });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        playButtonSoundFromEvent(event);
+      }
+    }, { capture: true });
+
+    testSoundBtn?.addEventListener('click', () => {
+      unlockAudio();
+      updateSoundStatus('🎵 Tes suara: klik, pop, menang, kalah.');
+      playButtonSound();
+      setTimeout(playEmptyPopSound, 230);
+      setTimeout(playWinSound, 520);
+      setTimeout(playLoseSound, 1260);
+    });
+
+    document.querySelectorAll('.letter-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        selectedLetter = button.dataset.letter;
+        warmUpVoice();
+        updateMenuUI();
+      });
+    });
+
+    document.querySelectorAll('.mode-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        useDistractors = button.dataset.distractor === 'true';
+        warmUpVoice();
+          updateMenuUI();
+      });
+    });
+
+    loadingNextBtn?.addEventListener('click', async () => {
+      await enterCoverAfterLoading();
+    });
+
+    coverVideo?.addEventListener('click', async () => {
+      await enableCoverVideoSound();
+    });
+
+    coverStartBtn.addEventListener('click', () => {
+      warmUpVoice();
+      if (coverVideo && !coverVideo.paused) coverVideo.pause();
+      startBackgroundMusic();
+      showStartMenu();
+    });
+    startBtn.addEventListener('click', () => {
+      warmUpVoice();
+      startGame();
+    });
+    replayBtn.addEventListener('click', () => {
+      warmUpVoice();
+      startGame();
+    });
+    chooseAgainBtn.addEventListener('click', () => {
+      warmUpVoice();
+      showMenu();
+    });
+    menuBtn.addEventListener('click', () => {
+      warmUpVoice();
+      showMenu();
+    });
+    pauseBtn.addEventListener('click', () => {
+      warmUpVoice();
+      togglePause();
+    });
+
+    window.addEventListener('keydown', event => {
+      if (event.key.toLowerCase() === 'p') togglePause();
+      if (event.key === 'Enter' && !gameRunning) {
+        if (loadingScreen && !loadingScreen.classList.contains('hidden') && loadingReadyForNext) enterCoverAfterLoading();
+        else if (!coverScreen.classList.contains('hidden')) showStartMenu();
+        else if (!startScreen.classList.contains('hidden')) startGame();
+        else startGame();
+      }
+    });
+
+    async function bootApp() {
+      const minimumLoadingTime = runLoadingCounter();
+      const coverVideoLoading = attachCoverVideo().catch(() => {});
+      prepareRepositoryBackgroundMusic();
+      applyResilientLetterImages();
+      loadIndonesianVoice();
+      updateMenuUI();
+      updateHUD();
+
+      await Promise.all([minimumLoadingTime, coverVideoLoading]);
+      showLoadingContinueButton();
+    }
+
+    bootApp();
+  </script>
+</body>
+</html>
